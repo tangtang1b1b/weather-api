@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: 微軟正黑體;
+            font-weight: bold;
+            /* outline: solid 1px #000; */
+        }
+        #weather{
+            padding: 50px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100vh;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            background-image: url(img/401-1.jpg);
+            background-size: cover;
+        }
+        .head{
+            width: 100%;
+            height: 33%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: auto;
+        }
+        .head .choose{
+            display: flex;
+            align-items: center;
+            margin: 0px 10px;
+        }
+        .head .namer{
+            margin: 0px 10px;
+        }
+        .bigMain{
+            width: 100%;
+            height: 33%;
+            margin: auto;
+        }
+        p{
+            font-size: 24px;
+            color: #000;
+        }
+        .sevenDay{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: 33%;
+            margin: auto;
+        }
+        .sevenDay .day{
+            width: calc(100%/7);
+            border: solid 1px #000;
+        }
+        .sevenDay .day img{
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="weather">
+        <div class="head">
+            <div class="namer">
+                <h1 id="mTitle">天氣之子</h1>
+            </div>
+            <div class="choose">
+                <select id="area">
+                    <option value="">請選擇地區</option>
+                </select>
+            </div>
+        </div>
+        <div class="bigMain">
+            <p id="today">今天是</p>
+            <p id="place">位置:選啊</p>
+            <p id="cloud">天氣:???</p>
+        </div>
+        <div class="sevenDay">
+            <!-- <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div>
+            <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div>
+            <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div>
+            <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div>
+            <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div>
+            <div class="day">
+                <p>1</p>
+                <img src="https://fakeimg.pl/300x200/200">
+            </div> -->
+        </div>
+    </div>
+    <script>
+        function getLocation(){
+            let area = document.querySelector('#area');
+            let place = document.querySelector('#place');
+            fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-F240FA9C-76C5-4792-B37B-92C168191E4A')
+            .then((res) => res.json())
+            .then((data) => {
+                let locations = data.records.locations['0'].location; // 所有地名
+                console.log(locations);
+                selectOption(locations);
+                selectLocation(locations);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+        getLocation();
+        //顯示對應地名
+        function selectLocation(locations){
+            let area = document.querySelector('#area');
+            area.addEventListener('change',(e) => {
+                let currentWay = locations[e.target.value]; // 找第[value]個陣列
+                place.innerText = `位置:${currentWay.locationName}`;
+                selectWeather(currentWay)
+                setDate(currentWay)
+            });
+        }
+        //顯示對應天氣
+        function selectWeather(currentWay){
+            let cloud = document.querySelector('#cloud');
+            let weather = currentWay.weatherElement['6'].time['0'].elementValue['0'].value;
+            cloud.innerText = `天氣:${weather}`;
+        }
+        // 選項生成
+        function selectOption(locations){
+            locations.forEach((e,index) => {
+                let option = document.createElement('option');
+                option.value = index;
+                option.innerText = e.locationName;
+                area.appendChild(option);
+            });
+        }
+        function setDate(currentWay){
+            let oneWeek =['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            let sevenDay = document.querySelector('.sevenDay');
+            let today = document.querySelector('#today');
+            let weather = currentWay.weatherElement['6'].time;
+            let tempture = currentWay.weatherElement['1'].time;
+            let newWeather = weather.filter((e,index) => index % 2 === 0);
+            let nowdate = new Date().getDay();
+            today.innerText = `${oneWeek[nowdate]}`;
+            newWeather.pop();
+            sevenDay.innerHTML = '';
+            newWeather.forEach((e,index) => {
+                let dayIndex = (nowdate + index) % 7;
+                sevenDay.innerHTML += `            
+                    <div class="day">
+                        <p>${oneWeek[dayIndex]}</p>
+                        <p>${weather[dayIndex].elementValue['0'].value}</p>
+                        <p>${tempture[dayIndex].elementValue['0'].value}°C</p>
+                    </div>`;
+            })  
+        }
+    </script>
+</body>
+</html>
