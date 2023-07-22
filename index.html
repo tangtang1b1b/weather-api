@@ -21,8 +21,9 @@
             display: flex;
             flex-direction: column;
             background-color: royalblue;
-            /* background-image: url(img/401-1.jpg);
-            background-size: cover; */
+            background-image: url(img/401-1.jpg);
+            background-size: cover; 
+            overflow-y: scroll;
         }
         .head{
             width: 100%;
@@ -87,7 +88,7 @@
     <div id="weather">
         <div class="head">
             <div class="namer">
-                <h1 id="mTitle">天氣之子</h1>
+                <h1 id="mTitle">天氣觀測</h1>
             </div>
             <div class="choose">
                 <select id="area">
@@ -120,11 +121,13 @@
             <div class="day">
                 <p>1</p>
                 <img src="https://fakeimg.pl/300x200/200">
-            </div>
+            </div> 
             <div class="day">
                 <p>1</p>
                 <img src="https://fakeimg.pl/300x200/200">
-            </div> -->
+                <p>123</p>
+                <p>ggg</p>
+            </div>-->
         </div>
     </div>
     <script>
@@ -138,7 +141,7 @@
                 let locations = data.records.locations['0'].location; // 所有地名
                 selectOption(locations);
                 selectLocation(locations);
-                
+                console.log(locations);
                 //預測桃園
                 area.value = 13;
                 let currentWay = locations[area.value];
@@ -191,6 +194,7 @@
                 sevenDay.innerHTML += `            
                     <div class="day">
                         <p>${oneWeek[dayIndex]}</p>
+                        <img src='img/weather/${weather[dayIndex].elementValue['1'].value}.svg'>
                         <p>${weather[dayIndex].elementValue['0'].value}</p>
                         <p>${tempture[dayIndex].elementValue['0'].value}°C</p>
                     </div>`;
