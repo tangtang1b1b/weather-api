@@ -10,7 +10,7 @@
             margin: 0;
             font-family: 微軟正黑體;
             font-weight: bold;
-            outline: solid 1px #000;
+            /* outline: solid 1px #000; */
         }
         body,html{
             width: 100%;
@@ -77,9 +77,51 @@
             margin: 0px 10px;
             color: #f7f7f7;
         }
-        .wTop .bigMain{
-            width: 100%;
+        .wTop .midd{
+            display: flex;
             padding-bottom: 40px;
+        }
+        .wTop .tempimg{
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+        .wTop .tempimg #title{
+            width: 100%;
+            height: 20%;
+            color: #fff;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .wTop .tempimg #watch{
+            width: 100%;
+            display: flex;
+            height: 80%;
+            align-items: flex-end;
+        }
+        .wTop .tempimg #watch .rock{
+            width: calc(100%/7);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+        }
+        .wTop .tempimg #watch .rock .perc{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            text-align: center;
+            font-size: 14px;
+            background-color: rgba(157, 157, 255, 0.81);
+            border-radius: 5px 5px 0px 0px;
+            color: rgba(255,255,255,0.8);
+        }
+        .wTop .bigMain{
+            width: 30%;
         }
         .wTop .bigMain p{
             font-size: 24px;
@@ -107,7 +149,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /* border: solid 1px #000; */
         }
         .wBottom .sevenDay .day .date{
             text-align: center;
@@ -150,10 +191,38 @@
                     </select>
                 </div>
             </div>
-            <div class="bigMain">
-                <p id="temparate"></p>
-                <p id="place"></p>
-                <p id="cloud"></p>
+            <div class="midd">
+                <div class="bigMain">
+                    <p id="temparate"></p>
+                    <p id="place"></p>
+                    <p id="cloud"></p>
+                </div>
+                <div class="tempimg">
+                    <div id="title">平均相對濕度</div>
+                    <div id="watch">
+                        <!-- <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div>
+                        <div class="rock">
+                            <div class="perc">1</div>
+                        </div> -->
+                    </div>
+                </div>
             </div>
         </div>
         <div id="wBottom" class="wBottom">
@@ -261,7 +330,7 @@
                 let locations = data.records.locations['0'].location; // 所有地名
                 selectOption(locations);
                 selectLocation(locations);
-                // console.log(locations);
+                console.log(locations);
                 //預測桃園
                 area.value = 13;
                 let currentWay = locations[area.value];
@@ -301,9 +370,13 @@
         }
         function setDate(currentWay){
             let oneWeek =['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            let oneWeekEN =['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             let sevenDay = document.querySelector('.sevenDay');
             let today = document.querySelector('#today');
             let temparate = document.querySelector('#temparate');
+            let watch = document.querySelector('#watch');
+            let perc = document.querySelector('.perc');
+            let wet = currentWay.weatherElement['2'].time;
             let weather = currentWay.weatherElement['6'].time;
             let tempture = currentWay.weatherElement['1'].time;
             let newWeather = weather.filter((e,index) => index % 2 === 0);
@@ -322,6 +395,13 @@
                         <p class="cloudtype">${weather[dayIndex].elementValue['0'].value}</p>
                         <p class="temp">${tempture[dayIndex].elementValue['0'].value}°C</p>
                     </div>`;
+                watch.innerHTML += `
+                    <div class="rock">
+                        <p style="color: #fff">${oneWeekEN[dayIndex]}</p>
+                        <div class="perc" style="height:${wet[dayIndex].elementValue['0'].value > 15 ? wet[dayIndex].elementValue['0'].value : 15}%">${wet[dayIndex].elementValue['0'].value}%</div>
+                    </div>
+                `;
+                
             })  
         }
     </script>
