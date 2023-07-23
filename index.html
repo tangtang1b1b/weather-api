@@ -10,128 +10,248 @@
             margin: 0;
             font-family: 微軟正黑體;
             font-weight: bold;
-            /* outline: solid 1px #000; */
+            outline: solid 1px #000;
+        }
+        body,html{
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+        }
+        #hang{
+            position: absolute;
+            width: 10px;
+            height: 10px; 
+            border-radius: 100%;
+            transform: translate(-50%,-50%);
+            animation: bumb 1s infinite;
+            z-index: 87;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        @keyframes bumb{
+            0%{
+                box-shadow: #fff 0 0 0 0
+            }
+            100%{
+                box-shadow: #ffffff0f 0 0 0 10px
+            }
         }
         #weather{
-            padding: 50px;
+            position: absolute;
+            border-radius: 10px;
+            transition: 0.5s;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
             box-sizing: border-box;
             width: 100%;
-            height: 100vh;
+            max-width: 998px;
             background-color: #f7f7f7;
             display: flex;
             flex-direction: column;
-            background-color: royalblue;
-            background-image: url(img/401-1.jpg);
-            background-size: cover; 
-            overflow-y: scroll;
+            background: linear-gradient(20deg,#19283D 0%,#1D678F 95%);
+            cursor: pointer;
+            box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.5);
         }
-        .head{
+        .wTop{
             width: 100%;
-            height: 33%;
+            padding: 30px 30px 0px 30px;
+            box-sizing: border-box;
+        }
+        .wTop .head{
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             margin: auto;
+            padding-bottom: 40px;
         }
-        .head .choose{
+        .wTop .head .choose{
             display: flex;
             align-items: center;
             margin: 0px 10px;
         }
-        .head .namer{
+        .wTop .head .namer{
             margin: 0px 10px;
+            color: #f7f7f7;
         }
-        .bigMain{
+        .wTop .bigMain{
             width: 100%;
-            height: 33%;
-            margin: auto;
+            padding-bottom: 40px;
         }
-        p{
+        .wTop .bigMain p{
             font-size: 24px;
-            color: #000;
+            color: #f7f7f7;
         }
-        .sevenDay{
+        .wTop .bigMain p#temparate{
+            font-size: 48px;
+        }
+        .wBottom{
+            width: 100%;
+            padding: 0px 30px 30px 30px;
+            box-sizing: border-box;
+            height: 0px;
+            overflow: hidden;
+            transition: 1s;
+        }
+        .wBottom .sevenDay{
             display: flex;
             justify-content: space-between;
             width: 100%;
-            height: 33%;
             margin: auto;
         }
-        .sevenDay .day{
+        .wBottom .sevenDay .day{
             width: calc(100%/7);
-            border: solid 1px #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* border: solid 1px #000; */
         }
-        .sevenDay .day img{
+        .wBottom .sevenDay .day .date{
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+        }
+        .wBottom .sevenDay .day .cloudtype{
+            font-size: 14px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+        .wBottom .sevenDay .day .temp{
+            font-size: 16px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+        .wBottom .sevenDay .day .box{
             width: 100%;
-            height: 200px;
+            height: 120px;
+            padding: 10px;
+            box-sizing: border-box;
         }
-        @media screen and (max-width:768px){
-            #weather{
-                height: 100%;
-                min-height: 100vh;
-            }
-            .bigMain{
-                padding-bottom: 50px;
-            }
-            .sevenDay{
-                flex-direction: column;
-                padding-bottom: 50px;
-            }
-            .sevenDay .day{
-                width: 100%;
-            }
+        .wBottom .sevenDay .day .cloudImg{
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
+    <div id="hang"></div>
     <div id="weather">
-        <div class="head">
-            <div class="namer">
-                <h1 id="mTitle">天氣觀測</h1>
+        <div class="wTop">
+            <div class="head">
+                <div class="namer">
+                    <h1 id="mTitle">天氣觀測</h1>
+                </div>
+                <div class="choose">
+                    <select id="area">
+                        <option value="">請選擇地區</option>
+                    </select>
+                </div>
             </div>
-            <div class="choose">
-                <select id="area">
-                    <option value="">請選擇地區</option>
-                </select>
+            <div class="bigMain">
+                <p id="temparate"></p>
+                <p id="place"></p>
+                <p id="cloud"></p>
             </div>
         </div>
-        <div class="bigMain">
-            <p id="today">今天是</p>
-            <p id="place">位置:選啊</p>
-            <p id="cloud">天氣:???</p>
-        </div>
-        <div class="sevenDay">
-            <!-- <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
+        <div id="wBottom" class="wBottom">
+            <div class="sevenDay">
+                <!-- <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/15.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/09.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/05.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/09.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/09.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/09.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div>
+                <div class="day">
+                    <p class="date">1</p>
+                    <div class="box">
+                        <img class="cloudImg" src="img/weather/01.svg">
+                    </div>
+                    <p class="cloudtype">123</p>
+                    <p class="temp">ggg</p>
+                </div> -->
             </div>
-            <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
-            </div>
-            <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
-            </div>
-            <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
-            </div>
-            <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
-            </div> 
-            <div class="day">
-                <p>1</p>
-                <img src="https://fakeimg.pl/300x200/200">
-                <p>123</p>
-                <p>ggg</p>
-            </div>-->
         </div>
     </div>
     <script>
+        followhang();
+        toggleOpen();
         getLocation();
+
+        function followhang(){
+            let weather = document.querySelector('#weather');
+            let hang = document.querySelector('#hang');
+            weather.addEventListener('mouseenter',() => {
+                weather.addEventListener('mousemove',(e) => {
+                    hang.style.opacity = '1';
+                    hang.style.left = `${e.pageX}px`;
+                    hang.style.top = `${e.pageY}px`;
+                });
+            });
+            weather.addEventListener('mouseleave',() => {
+                hang.style.opacity = '0';
+            });
+        }
+
+        function toggleOpen(){
+            let weather = document.querySelector('#weather');
+            let wBottom = document.querySelector('#wBottom');
+            let sum = 0;
+            weather.addEventListener('click',(e) => {
+                if(e.target.tagName === 'SELECT') return
+                sum++;
+                if (sum % 2 === 0) {
+                    wBottom.style.height = `0px`;
+                }else{
+                    wBottom.style.height = `200px`;
+                }
+            });
+        }
+
         function getLocation(){
             let area = document.querySelector('#area');
             let place = document.querySelector('#place');
@@ -141,11 +261,11 @@
                 let locations = data.records.locations['0'].location; // 所有地名
                 selectOption(locations);
                 selectLocation(locations);
-                console.log(locations);
+                // console.log(locations);
                 //預測桃園
                 area.value = 13;
                 let currentWay = locations[area.value];
-                place.innerText = `位置:${currentWay.locationName}`;
+                place.innerText = `${currentWay.locationName}`;
                 selectWeather(currentWay);
                 setDate(currentWay);
             })
@@ -158,7 +278,7 @@
             let area = document.querySelector('#area');
             area.addEventListener('change',(e) => {
                 let currentWay = locations[e.target.value]; // 找第[value]個陣列
-                place.innerText = `位置:${currentWay.locationName}`;
+                place.innerText = `${currentWay.locationName}`;
                 selectWeather(currentWay)
                 setDate(currentWay)
             });
@@ -167,7 +287,8 @@
         function selectWeather(currentWay){
             let cloud = document.querySelector('#cloud');
             let weather = currentWay.weatherElement['6'].time['0'].elementValue['0'].value;
-            cloud.innerText = `天氣:${weather}`;
+            let tempture = currentWay.weatherElement['1'].time;
+            cloud.innerText = `${weather}`;
         }
         // 選項生成
         function selectOption(locations){
@@ -179,24 +300,27 @@
             });
         }
         function setDate(currentWay){
-            let oneWeek =['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            let oneWeek =['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
             let sevenDay = document.querySelector('.sevenDay');
             let today = document.querySelector('#today');
+            let temparate = document.querySelector('#temparate');
             let weather = currentWay.weatherElement['6'].time;
             let tempture = currentWay.weatherElement['1'].time;
             let newWeather = weather.filter((e,index) => index % 2 === 0);
             let nowdate = new Date().getDay();
-            today.innerText = `${oneWeek[nowdate]}`;
             newWeather.pop();
             sevenDay.innerHTML = '';
             newWeather.forEach((e,index) => {
                 let dayIndex = (nowdate + index) % 7;
+                temparate.innerText = `${tempture[nowdate].elementValue['0'].value}°C`;
                 sevenDay.innerHTML += `            
                     <div class="day">
-                        <p>${oneWeek[dayIndex]}</p>
-                        <img src='img/weather/${weather[dayIndex].elementValue['1'].value}.svg'>
-                        <p>${weather[dayIndex].elementValue['0'].value}</p>
-                        <p>${tempture[dayIndex].elementValue['0'].value}°C</p>
+                        <p class="date">${oneWeek[dayIndex]}</p>
+                        <div class="box">
+                            <img class="cloudImg" src='img/weather/${weather[dayIndex].elementValue['1'].value}.svg'>
+                        </div>
+                        <p class="cloudtype">${weather[dayIndex].elementValue['0'].value}</p>
+                        <p class="temp">${tempture[dayIndex].elementValue['0'].value}°C</p>
                     </div>`;
             })  
         }
