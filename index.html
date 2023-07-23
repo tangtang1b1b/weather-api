@@ -383,6 +383,7 @@
             let nowdate = new Date().getDay();
             newWeather.pop();
             sevenDay.innerHTML = '';
+            watch.innerHTML = '';
             newWeather.forEach((e,index) => {
                 let dayIndex = (nowdate + index) % 7;
                 temparate.innerText = `${tempture[nowdate].elementValue['0'].value}°C`;
