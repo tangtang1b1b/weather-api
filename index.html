@@ -324,7 +324,7 @@
         function getLocation(){
             let area = document.querySelector('#area');
             let place = document.querySelector('#place');
-            fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-F240FA9C-76C5-4792-B37B-92C168191E4A')
+            fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWA-8BB21BCB-13B2-4B3E-8087-9F32EA291281')
             .then((res) => res.json())
             .then((data) => {
                 let locations = data.records.locations['0'].location; // 所有地名
